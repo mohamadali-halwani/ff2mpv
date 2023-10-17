@@ -13,7 +13,7 @@ fi
 
 # Common variables
 LINUX_NMH_DIR="NativeMessagingHosts"
-JSON_FILE="ff2mpv-chromium.json"
+JSON_FILE="ff2mpv.json"
 
 select_browser() {
   trap 'echo; exit 1' INT
@@ -22,19 +22,23 @@ select_browser() {
   chromium)
     linux_path="$HOME/.config/chromium"
     mac_path="$HOME/Library/Application Support/Chromium"
+    JSON_FILE="ff2mpv-chromium.json"
     ;;
   chrome)
     linux_path="$HOME/.config/google-chrome"
     mac_path="$HOME/Library/Application Support/Google/Chrome"
+    JSON_FILE="ff2mpv-chromium.json"
     ;;
   brave)
     linux_path="$HOME/.config/BraveSoftware/Brave-Browser"
     mac_path="$HOME/Library/Application Support/BraveSoftware/Brave-Browser"
+    JSON_FILE="ff2mpv.json"
     ;;
   edge)
     # https://docs.microsoft.com/en-us/microsoft-edge/extensions-chromium/developer-guide/native-messaging#step-3---copy-the-native-messaging-host-manifest-file-to-your-system
     linux_path="$HOME/.config/microsoft-edge"
     mac_path="$HOME/Library/Application Support/Microsoft Edge"
+    JSON_FILE="ff2mpv.json"
     ;;
   firefox)
     linux_path="$HOME/.mozilla"
@@ -106,8 +110,9 @@ if [[ -d "$BROWSER_DEST" ]]; then
   mkdir -p "$JSON_DEST"
   # Replace the placeholder path in the JSON file and install it
   sed -e "s|$OLD_PATH|$CURRENT_DIR/ff2mpv.py|g" "$JSON_FILE" >"$JSON_DEST"/ff2mpv.json
+  echo "Install successful!"
+  exit 1
 else
   echo "Please start your browser at least once to generate the required directories"
   exit 1
 fi
-echo "Install successful!"
